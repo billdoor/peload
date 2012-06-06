@@ -1,8 +1,26 @@
 #pragma once
 
-// TODO: these headers work with Wine -- need to test they work with actual Windows Platform SDK
-#include "windef.h"
-#include "winnt.h"
+/* Check our build platform. */
+#ifdef _MSC_VER
+/* Using the MSVC compiler on Windows */
+//	Speed up build process with minimal headers.
+#	define WIN32_LEAN_AND_MEAN
+#	define VC_EXTRALEAN
+
+//	Eliminate some warnings.
+#	ifndef _CRT_SECURE_NO_WARNINGS
+#		define _CRT_SECURE_NO_WARNINGS
+#	endif
+
+#	ifndef _CRT_NONSTDC_NO_WARNINGS
+#		define _CRT_NONSTDC_NO_WARNINGS
+#	endif
+#	include <windows.h>
+#else
+/* On Wine */
+#	include "windef.h"
+#	include "winnt.h"
+#endif
 
 #include <stdexcept>
 #include <algorithm>
